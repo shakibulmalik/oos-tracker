@@ -1,6 +1,3 @@
-// ─────────────────────────────────────────────────────────────
-//  CONFIG — paste your Web App URL here after deploying script
-// ─────────────────────────────────────────────────────────────
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyM0UKSNgtYjhnYScQgGl9b6hg_QZTzR92-Jh-3M-treb6xoJEfgBuhak-j4l5ezb76kA/exec";
 
 // ─────────────────────────────────────────────────────────────
@@ -313,10 +310,8 @@ function exportCSV() {
 //  HELPERS
 // ─────────────────────────────────────────────────────────────
 async function post(data) {
-  const res = await fetch(SCRIPT_URL, {
-    method:  "POST",
-    body:    JSON.stringify(data)
-  });
+  const url = SCRIPT_URL + "?payload=" + encodeURIComponent(JSON.stringify(data));
+  const res = await fetch(url, { method: "GET" });
   return res.json();
 }
 function showBanner(id) {
