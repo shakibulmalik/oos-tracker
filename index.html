@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OOS Field Tracker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="header-inner">
+      <div class="logo">OOS <span>Tracker</span></div>
+      <nav>
+        <button class="nav-btn active" id="nav-checkin"  onclick="showPage('checkin')">Check-in</button>
+        <button class="nav-btn"        id="nav-checkout" onclick="showPage('checkout')">Check-out</button>
+        <button class="nav-btn"        id="nav-dashboard" onclick="showPage('dashboard')">Dashboard</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ── CHECK-IN PAGE ───────────────────────────────────────── -->
+  <main id="page-checkin" class="page active">
+    <div class="container">
+
+      <div class="page-header">
+        <div>
+          <h1>Check-in</h1>
+          <p class="subtitle">Fill this in the moment you arrive at the store</p>
+        </div>
+      </div>
+
+      <div class="step-bar">
+        <div class="step active"><div class="step-num">1</div><span>Arrival — check-in</span></div>
+        <div class="step-arrow">→</div>
+        <div class="step dim"><div class="step-num">2</div><span>Done — check-out</span></div>
+      </div>
+
+      <div id="banner-checkin" class="banner banner-success" style="display:none">
+        ✓ Checked in! Come back to the Check-out tab when you're done.
+      </div>
+
+      <div class="card">
+        <div class="card-label">Who &amp; when</div>
+        <div class="field-row">
+          <div class="field">
+            <label for="ci-name">Your name <span class="req">*</span></label>
+            <input type="text" id="ci-name" placeholder="Enter your full name">
+          </div>
+          <div class="field">
+            <label for="ci-date">Date <span class="req">*</span></label>
+            <input type="date" id="ci-date">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="ci-location">Store <span class="req">*</span></label>
+            <select id="ci-location">
+              <option value="">Select location</option>
+              <optgroup label="Al Meera">
+                <option>Al Meera, Ain Khaled</option>
+                <option>Al Meera, Al Khor</option>
+                <option>Al Meera, Al Mansoura</option>
+                <option>Al Meera, Al Waab Hyatt Plaza</option>
+                <option>Al Meera, Al Wakrah Old</option>
+                <option>Al Meera, Bani Hajer</option>
+                <option>Al Meera, Hazm Al Markhiya</option>
+                <option>Al Meera, Leabaib</option>
+                <option>Al Meera, Old Airport</option>
+                <option>Al Meera, Rawdat Al Hamama</option>
+              </optgroup>
+              <optgroup label="Spar">
+                <option>Spar, New Salata</option>
+                <option>Spar, Tawar Mall</option>
+              </optgroup>
+              <optgroup label="Monoprix">
+                <option>Monoprix Pearl</option>
+                <option>Monoprix, Dafna</option>
+                <option>Monoprix, Doha Festival City Mall</option>
+                <option>Monoprix, Iconic Building 2022</option>
+                <option>Monoprix, Lusail TGO</option>
+                <option>Monoprix, Mushreib</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ci-timein">Time in <span class="req">*</span></label>
+            <input type="time" id="ci-timein">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="submitCheckin()">Check in now</button>
+
+    </div>
+  </main>
+
+  <!-- ── CHECK-OUT PAGE ──────────────────────────────────────── -->
+  <main id="page-checkout" class="page">
+    <div class="container">
+
+      <div class="page-header">
+        <div>
+          <h1>Check-out</h1>
+          <p class="subtitle">Complete this when you're done at the store</p>
+        </div>
+      </div>
+
+      <div class="step-bar">
+        <div class="step done"><div class="step-num">✓</div><span>Checked in</span></div>
+        <div class="step-arrow">→</div>
+        <div class="step active"><div class="step-num">2</div><span>Done — check-out</span></div>
+      </div>
+
+      <div id="banner-checkout" class="banner banner-success" style="display:none">
+        ✓ Check-out submitted! Great work today.
+      </div>
+
+      <div class="card">
+        <div class="card-label">Select your check-in</div>
+        <p class="card-hint">Tap your name below to continue</p>
+        <div id="open-checkins-list">
+          <div class="empty">No open check-ins found. Please check in first using the Check-in tab.</div>
+        </div>
+      </div>
+
+      <div id="checkout-form" style="display:none">
+
+        <div class="card">
+          <div class="card-label">Time out &amp; status</div>
+          <div class="field-row">
+            <div class="field">
+              <label for="co-timeout">Time out <span class="req">*</span></label>
+              <input type="time" id="co-timeout">
+            </div>
+            <div class="field">
+              <label for="co-status">Task status <span class="req">*</span></label>
+              <select id="co-status">
+                <option value="">Select status</option>
+                <option>All tasks completed</option>
+                <option>Partially completed</option>
+                <option>Blocked – needs support</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Tasks completed</div>
+          <div class="check-grid">
+            <label class="check-item">
+              <input type="checkbox" value="Fresh check">
+              <span class="check-box"></span>
+              Fresh check
+            </label>
+            <label class="check-item">
+              <input type="checkbox" value="Pelican task">
+              <span class="check-box"></span>
+              Pelican task
+            </label>
+          </div>
+          <div class="field" style="margin-top:1rem">
+            <label>Other tasks</label>
+            <div class="other-row">
+              <input type="text" id="co-other-input" placeholder="Type a task and press Add">
+              <button type="button" class="btn-add" onclick="addOther()">+ Add</button>
+            </div>
+            <div class="other-tags" id="co-other-tags"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Notes &amp; follow-up</div>
+          <div class="field" style="margin-bottom:12px">
+            <label for="co-issues">Issues or observations</label>
+            <textarea id="co-issues" placeholder="Describe any issues, gaps, or things needing follow-up..."></textarea>
+          </div>
+          <div class="field">
+            <label for="co-followup">Follow-up required?</label>
+            <select id="co-followup">
+              <option value="">Select</option>
+              <option>No follow-up needed</option>
+              <option>Minor follow-up – will handle</option>
+              <option>Escalation needed – manager review</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn btn-checkout" onclick="submitCheckout()">Submit check-out</button>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ── DASHBOARD PAGE ─────────────────────────────────────── -->
+  <main id="page-dashboard" class="page">
+    <div class="container">
+
+      <div class="page-header">
+        <div><h1>Dashboard</h1></div>
+        <button class="btn-csv" onclick="exportCSV()">⬇ Export CSV</button>
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-val" id="m-total">0</div>
+          <div class="metric-lbl">Total visits</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val warning" id="m-open">0</div>
+          <div class="metric-lbl">Still on-site</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val" id="m-locations">0</div>
+          <div class="metric-lbl">Active locations</div>
+        </div>
+        <div class="metric">
+          <div class="metric-val danger" id="m-escalations">0</div>
+          <div class="metric-lbl">Escalations</div>
+        </div>
+      </div>
+
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="switchSubTab('entries', this)">All entries</button>
+        <button class="sub-tab"        onclick="switchSubTab('locations', this)">Location summary</button>
+      </div>
+
+      <div id="subtab-entries">
+        <div class="filter-bar">
+          <select id="filter-person"   onchange="renderEntries()"><option value="">All staff</option></select>
+          <select id="filter-location" onchange="renderEntries()"><option value="">All locations</option></select>
+          <select id="filter-date"     onchange="renderEntries()"><option value="">All dates</option></select>
+          <button class="btn-clear" onclick="clearFilters()">Clear</button>
+        </div>
+        <div id="entries-list"><div class="empty">No entries yet.</div></div>
+      </div>
+
+      <div id="subtab-locations" style="display:none">
+        <div id="loc-summary"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
