@@ -1,3 +1,4 @@
+
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyM0UKSNgtYjhnYScQgGl9b6hg_QZTzR92-Jh-3M-treb6xoJEfgBuhak-j4l5ezb76kA/exec";
 
 // ─────────────────────────────────────────────────────────────
@@ -176,13 +177,19 @@ async function submitCheckout() {
 //  DASHBOARD — reads directly from Google Sheet
 // ─────────────────────────────────────────────────────────────
 async function refreshDashboard() {
-  document.getElementById("entries-list").innerHTML = '<div class="empty">Loading...</div>';
+  document.getElementById("entries-list").innerHTML = '<div class="empty">Loading all entries...</div>';
   try {
-    const res  = await fetch(`${SCRIPT_URL}?action=getAll`);
-    const json = await res.json();
-    allEntries = json.data || [];
+    const res  = await fetch(`${SCRIPT_URL}?action=getAll`, { cache: "no-store" });
+    const text = await res.text();
+    const json = JSON.parse(text);
+    if (json.status === "ok") {
+      allEntries = json.data || [];
+    } else {
+      throw new Error(json.message);
+    }
   } catch(e) {
-    allEntries = [];
+    document.getElementById("entries-list").innerHTML = '<div class="empty">Could not load data. Please check your connection and try again.<br><br><button class="btn-sm" onclick="refreshDashboard()">Retry</button></div>';
+    return;
   }
   updateMetrics();
   populateFilters();
